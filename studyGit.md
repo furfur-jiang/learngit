@@ -120,81 +120,34 @@ $ git clone git@github.com:xxx(你的github账户名)/xxx(仓库名).git
 
 ### 管理分支
 
-`git branch`命令会列出所有分支，当前分支前面会标一个`*`号
-
-`git merge`命令用于合并指定分支到当前分支
-
 Git鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接在`master`分支上工作效果是一样的，但过程更安全。
+
+#### 分支代码
+
+查看分支：`git branch`   当前分支前面会标一个`*`号
+
+创建分支：`git branch <name> `
+
+切换分支：`git checkout <name>   `或者`git switch <name> `
+
+创建+切换分支：`git checkout -b <name> `或者`git switch -c <name> `
+
+合并某分支到当前分支：`git merge `
+
+删除分支：`git branch -d <name> `
 
 #### 分支实战
 
-首先，我们创建`dev`分支，然后切换到`dev`分支：
+[分支实战详解]: https://www.liaoxuefeng.com/wiki/896043488029600/900003767775424
 
-```
-$ git checkout -b dev
-Switched to a new branch 'dev'
+1. 创建`dev`分支，然后切换到`dev`分支：`git checkout -b dev`
 
-加上-b参数表示创建并切换，相当于以下两条命令：
-$ git branch dev
-$ git checkout dev
-```
+2. 正常提交：add,commit
+3. 回到master分支：`git checkout master`
 
-然后，用`git branch`命令查看当前分支：
+4. `dev`分支的工作成果合并到`master`分支：`git merge dev`
+5. 删除`dev`分支`git branch -d dev`
 
-```
-$ git branch
-* dev
-  master
-```
+#### 分支冲突
 
-`git branch`命令会列出所有分支，当前分支前面会标一个`*`号。
-
-然后，我们就可以在`dev`分支上正常提交
-
-```
-$ git add readme.txt 
-$ git commit -m "branch test"
-[dev b17d20e] branch test
- 1 file changed, 1 insertion(+)
-```
-
-现在，`dev`分支的工作完成，我们就可以切换回`master`分支：
-
-```
-$ git checkout master
-Switched to branch 'master'
-```
-
-切换回`master`分支后，再查看一个`readme.txt`文件，刚才添加的内容不见了！因为那个提交是在`dev`分支上，而`master`分支此刻的提交点并没有变：
-
-![git-br-on-master](https://www.liaoxuefeng.com/files/attachments/919022533080576/0)
-
-现在，我们把`dev`分支的工作成果合并到`master`分支上：
-
-```
-$ git merge dev
-Updating d46f35e..b17d20e
-Fast-forward
- readme.txt | 1 +
- 1 file changed, 1 insertion(+)
-```
-
-`git merge`命令用于合并指定分支到当前分支。合并后，再查看`readme.txt`的内容，就可以看到，和`dev`分支的最新提交是完全一样的。
-
-注意到上面的`Fast-forward`信息，Git告诉我们，这次合并是“快进模式”，也就是直接把`master`指向`dev`的当前提交，所以合并速度非常快。
-
-当然，也不是每次合并都能`Fast-forward`，我们后面会讲其他方式的合并。
-
-合并完成后，就可以放心地删除`dev`分支了：
-
-```
-$ git branch -d dev
-Deleted branch dev (was b17d20e).
-```
-
-删除后，查看`branch`，就只剩下`master`分支了：
-
-```
-$ git branch
-* master
-```
+a+b=c
